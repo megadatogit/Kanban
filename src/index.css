@@ -1,17 +1,4 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html,
-body,
-#root {
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
-}
-
-body {
-  border: 0;
-}
+@import "./styles/reset.css";
+@import "./styles/base.css";
+@import "./styles/utilities.css";
+@import "./styles/themes.css";

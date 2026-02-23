@@ -1,0 +1,99 @@
+:root {
+  /* ===================== Core Tokens ===================== */
+  --c-white: #ffffff;
+  --c-black: #000000;
+  --c-gray-950: #111111;
+  --c-gray-900: #1f2937;
+  --c-gray-700: #334155;
+  --c-gray-500: #64748b;
+  --c-gray-300: #cbd5e1;
+  --c-gray-200: #e5e7eb;
+  --c-gray-100: #f3f4f6;
+  --c-gray-050: #f6f7f8;
+  --c-gray-025: #eef1f4;
+  --c-surface-soft: #f0f0f0;
+  --c-surface-soft-text: #2b2b2b;
+  --c-border-soft: #d4d4d4;
+  --c-danger-600: #dc2626;
+  --c-danger-700: #991b1b;
+  --c-danger-800: #7f1d1d;
+  --c-danger-500: #ef4444;
+
+  /* Shared overlays/shadows */
+  --ov-1: rgba(0, 0, 0, 0.08);
+  --ov-2: rgba(0, 0, 0, 0.14);
+  --ov-3: rgba(0, 0, 0, 0.18);
+  --ov-4: rgba(0, 0, 0, 0.55);
+  --ov-icon-dark: rgba(148, 163, 184, 0.2);
+  --ov-icon-light: rgba(148, 163, 184, 0.18);
+
+  /* Size scale */
+  --space-1: 0.25rem;
+  --space-0-75: 0.1875rem;
+  --space-0-5: 0.125rem;
+  --space-1-5: 0.375rem;
+  --space-2: 0.5rem;
+  --space-2-5: 0.625rem;
+  --space-3: 0.75rem;
+  --space-3-5: 0.875rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-24: 6rem;
+
+  --radius-sm: 0.375rem;
+  --radius-2xs: 0.15rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.625rem;
+  --radius-xl: 0.75rem;
+  --radius-pill: 999rem;
+
+  --control-size: 2.25rem;
+  --size-swatch: 0.75rem;
+  --size-col-marker-w: 0.625rem;
+  --size-col-marker-h: 1.75rem;
+  --size-col-marker-r: 0.3125rem;
+  --size-input-min-h: 2.125rem;
+  --size-border-thin: 0.0625rem;
+  --size-border-md: 0.125rem;
+
+  /* Layout sizes */
+  --layout-home-max: 62rem;
+  --layout-home-gap: 2rem;
+  --layout-home-left-h: 50vh;
+  --layout-header-mb: 1.5rem;
+  --layout-board-pb: 2.5rem;
+  --layout-columns-min: 75rem;
+  --layout-column-w: 20rem;
+  --layout-column-w-sm: 17.5rem;
+  --layout-stack-min-h: 11.25rem;
+  --layout-empty-drop-h: 3.75rem;
+  --layout-textarea-min-h: 5.125rem;
+  --layout-modal-w: 32.5rem;
+  --layout-modal-wide-w: 56.25rem;
+  --layout-modal-max-h: 90vh;
+  --layout-settings-body-offset: 8.25rem;
+  --layout-settings-body-offset-sm: 9.375rem;
+  --layout-select-menu-max-h: 14rem;
+  --layout-select-min-w: 13rem;
+  --layout-menu-min-w: 11.25rem;
+  --layout-swatch-menu-min-w: 2.75rem;
+
+  --fs-3xs: clamp(0.5625rem, 0.52rem + 0.2vw, 0.625rem);
+  --fs-2xs: clamp(0.625rem, 0.58rem + 0.2vw, 0.6875rem);
+  --fs-xs: clamp(0.6875rem, 0.62rem + 0.25vw, 0.75rem);
+  --fs-sm: clamp(0.75rem, 0.68rem + 0.25vw, 0.8125rem);
+  --fs-md: clamp(0.75rem, 0.68rem + 0.25vw, 0.875rem);
+  --fs-title-sm: clamp(0.875rem, 0.8rem + 0.3vw, 0.95rem);
+  --fs-title-md: clamp(1rem, 0.8rem + 0.9vw, 1.25rem);
+  --fs-hero: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+
+  /* Legacy compatibility tokens */
+  --note-bg: #f0f0f0;
+  --note-text: #2b2b2b;
+  --card-bg: var(--c-white);
+  --border: var(--c-gray-200);
+  --shadow: 0 0.125rem 0.5rem var(--ov-1);
+}

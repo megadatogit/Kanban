@@ -1,3 +1,11 @@
+function makeProjectId() {
+  const uuid =
+    typeof globalThis !== "undefined" && globalThis.crypto?.randomUUID
+      ? globalThis.crypto.randomUUID()
+      : `${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+  return `p_${uuid}`;
+}
+
 export function createDefaultProject() {
   const columns = [
     {
@@ -59,7 +67,7 @@ export function createDefaultProject() {
   ];
 
   const now = new Date().toISOString();
-  const id = `p_${Date.now()}`;
+  const id = makeProjectId();
   return {
     version: 1,
     id,

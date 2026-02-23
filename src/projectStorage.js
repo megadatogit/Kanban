@@ -20,12 +20,27 @@ function getProjectKey(projectId) {
   return `${PROJECT_KEY_PREFIX}${projectId}`;
 }
 
+function normalizeProjectsIndex(index) {
+  if (!Array.isArray(index)) return [];
+  const byId = new Map();
+  for (const item of index) {
+    if (!item || item.id === undefined || item.id === null) continue;
+    const id = String(item.id);
+    byId.set(id, {
+      id,
+      name: String(item.name || "Proyecto").trim() || "Proyecto",
+      updatedAt: item.updatedAt,
+    });
+  }
+  return Array.from(byId.values());
+}
+
 export function loadProjectsIndex() {
-  return safeReadJson(PROJECTS_INDEX_KEY, []);
+  return normalizeProjectsIndex(safeReadJson(PROJECTS_INDEX_KEY, []));
 }
 
 export function saveProjectsIndex(index) {
-  saveJson(PROJECTS_INDEX_KEY, index);
+  saveJson(PROJECTS_INDEX_KEY, normalizeProjectsIndex(index));
 }
 
 export function loadProject(projectId) {
@@ -49,10 +64,11 @@ export function setActiveProjectId(projectId) {
 }
 
 export function addProjectToIndex(project) {
+  const projectId = String(project.id);
   const current = loadProjectsIndex();
-  const next = current.filter((p) => p.id !== project.id);
+  const next = current.filter((p) => String(p.id) !== projectId);
   next.push({
-    id: project.id,
+    id: projectId,
     name: project.name,
     updatedAt: project.updatedAt,
   });
@@ -60,8 +76,9 @@ export function addProjectToIndex(project) {
 }
 
 export function removeProjectFromIndex(projectId) {
+  const normalizedId = String(projectId);
   const current = loadProjectsIndex();
-  const next = current.filter((p) => p.id !== projectId);
+  const next = current.filter((p) => String(p.id) !== normalizedId);
   saveProjectsIndex(next);
   return next;
 }

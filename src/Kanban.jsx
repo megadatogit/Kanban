@@ -110,6 +110,7 @@ export default function Kanban() {
   const [renameProjectName, setRenameProjectName] = useState("");
   const [pendingImportError, setPendingImportError] = useState("");
   const [showSetupOnboarding, setShowSetupOnboarding] = useState(false);
+  const [taskFormError, setTaskFormError] = useState("");
   const [pendingImportManualName, setPendingImportManualName] = useState("");
   const [showFirstTaskOnboarding, setShowFirstTaskOnboarding] = useState(false);
   const [pendingImportNameStrategy, setPendingImportNameStrategy] = useState("use_imported");
@@ -533,6 +534,7 @@ export default function Kanban() {
       draggedId,
       setNewTask,
       setEditingTaskId,
+      setTaskFormError,
       setDraggedId,
       updateProject,
       setIsModalOpen,
@@ -846,8 +848,10 @@ export default function Kanban() {
         isOpen={isModalOpen}
         toggleTag={toggleTag}
         setNewTask={setNewTask}
+        taskFormError={taskFormError}
         editingTaskId={editingTaskId}
         setEditingTaskId={setEditingTaskId}
+        setTaskFormError={setTaskFormError}
         handleAddTask={handleAddTask}
         setIsModalOpen={setIsModalOpen}
         currentIteration={currentIteration}

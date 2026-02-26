@@ -7,8 +7,10 @@ export default function KanbanTaskModal({
   showFirstTaskOnboarding,
   setShowFirstTaskOnboarding,
   setIsModalOpen,
+  taskFormError,
   editingTaskId,
   setEditingTaskId,
+  setTaskFormError,
   handleAddTask,
   newTask,
   setNewTask,
@@ -23,6 +25,7 @@ export default function KanbanTaskModal({
 
   const handleCloseModal = () => {
     setChecklistText("");
+    setTaskFormError("");
     setShowFirstTaskOnboarding(false);
     setEditingTaskId(null);
     setIsModalOpen(false);
@@ -89,8 +92,8 @@ export default function KanbanTaskModal({
 
         <form
           onSubmit={(e) => {
-            setChecklistText("");
-            handleAddTask(e);
+            const didSave = handleAddTask(e);
+            if (didSave) setChecklistText("");
           }}
           className={styles.form}
         >
@@ -154,7 +157,10 @@ export default function KanbanTaskModal({
                 type="date"
                 className={styles.input}
                 value={newTask.startDateISO}
-                onChange={(e) => setNewTask((p) => ({ ...p, startDateISO: e.target.value }))}
+                onChange={(e) => {
+                  setTaskFormError("");
+                  setNewTask((p) => ({ ...p, startDateISO: e.target.value }));
+                }}
               />
             </div>
 
@@ -165,10 +171,15 @@ export default function KanbanTaskModal({
                 type="date"
                 className={styles.input}
                 value={newTask.dueDateISO}
-                onChange={(e) => setNewTask((p) => ({ ...p, dueDateISO: e.target.value }))}
+                onChange={(e) => {
+                  setTaskFormError("");
+                  setNewTask((p) => ({ ...p, dueDateISO: e.target.value }));
+                }}
               />
             </div>
           </div>
+
+          {taskFormError ? <p className={styles.errorText}>{taskFormError}</p> : null}
 
           <div className={styles.formRow}>
             <div className={`${styles.formGroup} ${styles.full}`}>

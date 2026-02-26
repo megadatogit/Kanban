@@ -594,20 +594,33 @@
 }
 
 .cardAside {
+  
   position: absolute;
   right: 0.625rem;
   top: 2.75rem;
   width: 1.85rem;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: end;
   justify-content: center;
   gap: var(--space-1-5);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cardAside:hover {
+  background: var(--icon-hover-bg);
+}
+
+.cardAside:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 0.125rem var(--border);
 }
 
 .timeRail {
   width: 0.5rem;
-  min-height: 5rem;
+  height: 5rem;
   border-radius: var(--radius-pill);
   background: var(--task-rail-track);
   border: none;
@@ -734,6 +747,34 @@
   color: var(--muted-text);
 }
 
+.cardDateRangeAlert {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.cardDateRangeDueSoon {
+  color: var(--move-notice-text);
+}
+
+.cardDateRangeOverdue {
+  color: var(--danger-title);
+  text-shadow: 0 0 0.375rem var(--danger-shadow-a);
+  animation: dueAlertPulse 1.2s ease-in-out infinite;
+}
+
+.cardDateAlertIcon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.0625rem;
+}
+
+.cardDateAlertBang {
+  font-size: var(--fs-3xs);
+  font-weight: 800;
+  line-height: 1;
+}
+
 .cardEditIcon {
   color: var(--muted-text);
   flex-shrink: 0;
@@ -784,6 +825,18 @@
 .cardTitleWithTooltip:focus-within .cardTitleTooltip {
   opacity: 1;
   transform: translateY(0);
+}
+
+@keyframes dueAlertPulse {
+  0% {
+    text-shadow: 0 0 0.25rem var(--danger-shadow-a);
+  }
+  50% {
+    text-shadow: 0 0 0.6rem var(--danger-shadow-b);
+  }
+  100% {
+    text-shadow: 0 0 0.25rem var(--danger-shadow-a);
+  }
 }
 
 .cardHeader .badge {
@@ -1531,6 +1584,6 @@
   }
  */
   .timeRail {
-    min-height: 4.25rem;
+    height: 4.25rem;
   }
 }

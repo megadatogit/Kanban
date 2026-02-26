@@ -7,6 +7,7 @@ export function useKanbanTaskActions({
   setNewTask,
   editingTaskId,
   setEditingTaskId,
+  setTaskFormError,
   setShowFirstTaskOnboarding,
   setIsModalOpen,
   getIterationDates,
@@ -18,6 +19,7 @@ export function useKanbanTaskActions({
   const openModal = () => {
     setShowFirstTaskOnboarding(false);
     setEditingTaskId(null);
+    setTaskFormError("");
     const { start, end } = getIterationDates(selectedIteration);
     setNewTask({
       title: "",
@@ -36,6 +38,7 @@ export function useKanbanTaskActions({
     if (!task) return;
     setShowFirstTaskOnboarding(false);
     setEditingTaskId(task.id);
+    setTaskFormError("");
     setNewTask({
       title: task.title || "",
       description: task.description || "",
@@ -57,9 +60,9 @@ export function useKanbanTaskActions({
 
   const handleAddTask = (e) => {
     e.preventDefault();
-    if (!newTask.title.trim() || !newTask.assignee.trim()) return;
+    if (!newTask.title.trim() || !newTask.assignee.trim()) return false;
     const defaultColumnId = project.columns[0]?.id;
-    if (!defaultColumnId) return;
+    if (!defaultColumnId) return false;
 
     const initials = newTask.assignee
       .split(" ")
@@ -69,6 +72,17 @@ export function useKanbanTaskActions({
       .slice(0, 2);
 
     const { start, end } = getIterationDates(selectedIteration);
+    const startDateISO = newTask.startDateISO || ddmmyyyyToISO(start);
+    const dueDateISO = newTask.dueDateISO || ddmmyyyyToISO(end);
+
+    if (!startDateISO || !dueDateISO) {
+      setTaskFormError("Define fecha de inicio y fecha limite para la tarea.");
+      return false;
+    }
+    if (startDateISO > dueDateISO) {
+      setTaskFormError("La fecha de inicio no puede ser mayor a la fecha limite.");
+      return false;
+    }
 
     const normalizedChecklist = (newTask.checklistItems || [])
       .map((item) => ({
@@ -86,8 +100,8 @@ export function useKanbanTaskActions({
       checklist: normalizedChecklist,
       assignee: newTask.assignee.trim(),
       initials,
-      startDate: isoToDDMMYYYY(newTask.startDateISO) || start,
-      dueDate: isoToDDMMYYYY(newTask.dueDateISO) || end,
+      startDate: isoToDDMMYYYY(startDateISO) || start,
+      dueDate: isoToDDMMYYYY(dueDateISO) || end,
     };
 
     if (editingTaskId) {
@@ -109,8 +123,10 @@ export function useKanbanTaskActions({
     }
 
     setShowFirstTaskOnboarding(false);
+    setTaskFormError("");
     setEditingTaskId(null);
     setIsModalOpen(false);
+    return true;
   };
 
   const toggleTag = (tag) => {

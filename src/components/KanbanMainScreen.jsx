@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { DoorOpen, Menu as MenuIcon, Moon, SquarePen, Sun, X } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Clock3, DoorOpen, Menu as MenuIcon, Moon, SquarePen, Sun, X } from "lucide-react";
 
 export default function KanbanMainScreen({
   screen,
@@ -40,7 +40,15 @@ export default function KanbanMainScreen({
   onDragStart,
   tagSlug,
 }) {
-  const [renderNow] = useState(() => Date.now());
+  const [renderNow, setRenderNow] = useState(() => Date.now());
+
+  useEffect(() => {
+    const timerId = setInterval(() => {
+      setRenderNow(Date.now());
+    }, 60000);
+
+    return () => clearInterval(timerId);
+  }, []);
 
   const parseDDMMYYYY = (value) => {
     const [dd = "", mm = "", yyyy = ""] = String(value || "").split("/");
@@ -63,6 +71,18 @@ export default function KanbanMainScreen({
     if (now <= startMs) return 0;
     if (now >= dueMs) return 100;
     return Math.max(0, Math.min(100, ((now - startMs) / (dueMs - startMs)) * 100));
+  };
+
+  const getTaskDueState = (task) => {
+    const due = parseDDMMYYYY(task.dueDate);
+    if (!due) return "ok";
+    const now = new Date(renderNow);
+    const dueEnd = new Date(due.getFullYear(), due.getMonth(), due.getDate(), 23, 59, 59, 999);
+    if (now.getTime() > dueEnd.getTime()) return "overdue";
+    const msRemaining = dueEnd.getTime() - now.getTime();
+    const hoursRemaining = msRemaining / (1000 * 60 * 60);
+    if (hoursRemaining <= 24) return "dueSoon";
+    return "ok";
   };
 
   const getTaskShortId = (taskId) => {
@@ -503,7 +523,9 @@ export default function KanbanMainScreen({
                     const checklistItems = Array.isArray(t.checklist) ? t.checklist : [];
                     const visibleChecklist = checklistItems.slice(0, 5);
                     const overflowChecklist = checklistItems.length - visibleChecklist.length;
+                    const checklistCount = checklistItems.length;
                     const timeProgress = getTaskTimeProgress(t);
+                    const dueState = getTaskDueState(t);
                     const hasChecklist = checklistItems.length > 0;
                     const showTitleTooltip = String(t.title || "").trim().length > 52;
 
@@ -540,7 +562,15 @@ export default function KanbanMainScreen({
                                 ) : null}
                               </div>
                             </div>
-                            <p className={styles.cardDateRange}>
+                            <p
+                              className={`${styles.cardDateRange} ${dueState !== "ok" ? styles.cardDateRangeAlert : ""} ${dueState === "overdue" ? styles.cardDateRangeOverdue : ""} ${dueState === "dueSoon" ? styles.cardDateRangeDueSoon : ""}`}
+                            >
+                              {dueState !== "ok" ? (
+                                <span className={styles.cardDateAlertIcon} aria-label="Alerta de vencimiento">
+                                  <Clock3 size={11} aria-hidden="true" />
+                                  <span className={styles.cardDateAlertBang} aria-hidden="true">!</span>
+                                </span>
+                              ) : null}
                               {t.startDate} - {t.dueDate}
                             </p>
                             <p className={styles.description}>{t.description}</p>
@@ -569,7 +599,20 @@ export default function KanbanMainScreen({
                         </div>
                       </div>
 
-                      <aside className={styles.cardAside} aria-label="Resumen de progreso y actividades">
+                      <aside
+                        className={styles.cardAside}
+                        aria-label="Resumen de progreso y actividades"
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => openEditTask(t)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            openEditTask(t);
+                          }
+                        }}
+                        title="Editar tarea"
+                      >
                         <div className={styles.timeRail} aria-label={`Progreso de tiempo ${Math.round(timeProgress)}%`}>
                           <span
                             className={styles.timeRailFill}
@@ -583,6 +626,9 @@ export default function KanbanMainScreen({
                           >
                             {hasChecklist && overflowChecklist > 0 ? (
                               <span className={styles.checklistMore}>+{overflowChecklist}</span>
+                            ) : null}
+                            {hasChecklist && overflowChecklist === 0 ? (
+                              <span className={styles.checklistMore}>{checklistCount}</span>
                             ) : null}
                             {hasChecklist
                               ? visibleChecklist.map((item) => (

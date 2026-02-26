@@ -128,6 +128,9 @@
   --note-bg: #f2f2f2;
   --note-border: #dbdbdb;
   --note-text: #3a3a3a;
+  --task-rail-fill: #b8b8b8;
+  --task-check-done: #b8b8b8;
+  --task-check-more: #5f6670;
 }
 
 .app[data-theme="sage"] {
@@ -153,6 +156,9 @@
   --note-bg: #edf5ef;
   --note-border: #c7dccf;
   --note-text: #365246;
+  --task-rail-fill: #9fc3ad;
+  --task-check-done: #9fc3ad;
+  --task-check-more: #557665;
 }
 
 .app[data-theme="peach"] {
@@ -178,6 +184,9 @@
   --note-bg: #faede7;
   --note-border: #e8cabc;
   --note-text: #6d4a3d;
+  --task-rail-fill: #d5a48f;
+  --task-check-done: #d5a48f;
+  --task-check-more: #7e5a4d;
 }
 
 .app[data-theme="lavender"] {
@@ -203,6 +212,9 @@
   --note-bg: #f1ecfc;
   --note-border: #d7ccf0;
   --note-text: #534776;
+  --task-rail-fill: #b5a4de;
+  --task-check-done: #b5a4de;
+  --task-check-more: #665984;
 }
 
 .app[data-theme="sky"] {
@@ -228,6 +240,9 @@
   --note-bg: #ecf4f9;
   --note-border: #c6dcea;
   --note-text: #3a596c;
+  --task-rail-fill: #9cc1d5;
+  --task-check-done: #9cc1d5;
+  --task-check-more: #4e6f82;
 }
 
 .app.dark {
@@ -337,6 +352,9 @@
   --note-bg: #222222;
   --note-border: #3a3a3a;
   --note-text: #d8d8d8;
+  --task-rail-fill: #8a8a8a;
+  --task-check-done: #8a8a8a;
+  --task-check-more: #c6ced8;
 }
 
 .app.dark[data-theme="sage"] {
@@ -358,6 +376,9 @@
   --note-bg: #1f2f26;
   --note-border: #365244;
   --note-text: #cfe3d7;
+  --task-rail-fill: #6ea687;
+  --task-check-done: #6ea687;
+  --task-check-more: #b7d4c3;
 }
 
 .app.dark[data-theme="peach"] {
@@ -379,6 +400,9 @@
   --note-bg: #2f211c;
   --note-border: #563c31;
   --note-text: #f0d8ce;
+  --task-rail-fill: #c58b74;
+  --task-check-done: #c58b74;
+  --task-check-more: #e2b8a9;
 }
 
 .app.dark[data-theme="lavender"] {
@@ -400,6 +424,9 @@
   --note-bg: #2c2540;
   --note-border: #4f4370;
   --note-text: #e2d8f7;
+  --task-rail-fill: #9985ca;
+  --task-check-done: #9985ca;
+  --task-check-more: #cdbfe9;
 }
 
 .app.dark[data-theme="sky"] {
@@ -421,5 +448,8 @@
   --note-bg: #20323c;
   --note-border: #395766;
   --note-text: #d2e5ef;
+  --task-rail-fill: #6fa4c1;
+  --task-check-done: #6fa4c1;
+  --task-check-more: #b4d2e1;
 }
 

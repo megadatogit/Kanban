@@ -1,295 +1,104 @@
-# Kanban Multi-Proyecto (Offline)
+<div align="center">
 
-Aplicación Kanban hecha con React + Vite para gestionar múltiples proyectos en la misma máquina, sin backend y sin conexión obligatoria a internet.  
-Toda la información se guarda en `localStorage`.
+  ![alt text](./image/Kanban.gif)
+
+## Kanban Multi-Proyecto Offline
+
+![React](https://img.shields.io/badge/Framework-React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/Build-Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![CSS Modules](https://img.shields.io/badge/Estilo-CSS_Modules-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![LocalStorage](https://img.shields.io/badge/Persistencia-localStorage-FFB300?style=for-the-badge&logo=googlechrome&logoColor=black)
+
+</div>
 
 ---
 
-## 1. Guía de Uso (Usuarios No Técnicos)
+### 📝 Descripción
+**Kanban Multi-Proyecto Offline** es una aplicación web desarrollada con **React + Vite** para gestionar múltiples proyectos en una misma máquina, sin necesidad de backend ni conexión obligatoria a internet. La aplicación permite organizar tareas mediante flujo Kanban, iteraciones y responsables, guardando toda la información localmente en `localStorage`.
 
-### 1.1. ¿Qué es esta aplicación?
-Este tablero permite organizar tareas por columnas (flujo Kanban), iteraciones y responsables.  
-Puedes tener varios proyectos, cambiar entre ellos, exportarlos y volver a importarlos.
-
-### 1.2. Características principales
+## Qué incluye
 - Gestión de múltiples proyectos locales.
 - Tablero Kanban con columnas configurables.
 - Límites WIP por columna.
-- Iteraciones configurables con rango de fechas.
-- Alta de tareas con prioridad, etiquetas, responsable y fechas.
+- Iteraciones con rango de fechas.
+- Creación de tareas con prioridad, etiquetas, responsable y fechas.
 - Drag & drop para mover tareas entre columnas.
-- Modo claro/oscuro.
+- Modo claro y oscuro.
 - Exportación e importación de proyectos en JSON.
-- Eliminación de proyecto con doble confirmación y temporizador de seguridad.
+- Eliminación segura de proyectos con doble confirmación y temporizador.
 
-### 1.3. Inicio rápido
-1. Abre la aplicación.
-2. Selecciona un proyecto en el selector superior.
-3. Usa `Nueva Tarea` para crear tareas.
-4. Arrastra las tarjetas entre columnas para actualizar su estado.
-5. Usa el botón de tema (ícono sol/luna) para cambiar visualización.
+### 📂 Estructura del Proyecto
 
-### 1.4. Barra superior: qué hace cada control
-- Selector de proyecto: cambia el proyecto activo.
-- Botón `Menú`: abre acciones de administración del proyecto.
-- Selector de iteración: filtra tareas por iteración.
-- Botón `Nueva Tarea`: abre formulario de creación de tarea.
-- Botón tema (sol/luna): alterna modo claro y oscuro.
+| Archivo | Tipo | Descripción |
+| --- | --- | --- |
+| **`src/Kanban.jsx`** | `React` | Componente principal con la interfaz y la lógica del tablero. |
+| **`src/Kanban.module.css`** | `CSS Modules` | Estilos del tablero, tarjetas, columnas y modales. |
+| **`src/defaultProject.js`** | `JS` | Fábrica del proyecto base que se crea al iniciar la app. |
+| **`src/projectStorage.js`** | `JS` | Gestión de persistencia local usando `localStorage`. |
+| **`src/index.css`** | `CSS` | Reset global y estilos base de la aplicación. |
 
-### 1.5. Menú de proyecto (acción por acción)
-Desde `Menú`:
+### 🎨 Proceso de Diseño (UI/UX)
+Para este proyecto, el diseño se enfocó en crear una experiencia clara, funcional y completamente operativa en entorno local. Se trabajó en:
+* **Jerarquía visual:** organización del tablero para identificar rápidamente columnas, tareas e iteraciones.
+* **Interacción:** uso de modales, confirmaciones y drag & drop para facilitar la gestión de tareas.
+* **Feedback visual:** soporte para modo claro/oscuro, microinteracciones y validaciones en acciones críticas.
+* **Persistencia local:** experiencia pensada para funcionar sin servidor, manteniendo los datos disponibles desde el navegador.
 
-#### Nuevo Proyecto
-- Abre un modal para escribir nombre.
-- Crea un proyecto nuevo con estructura base.
-- Cambia automáticamente al nuevo proyecto.
+> Puedes colocar aquí una captura del tablero, flujo de tareas o mockup del diseño.
+![alt text](./image//kanban-ui.png)
 
-#### Renombrar
-- Abre modal para cambiar nombre.
-- Actualiza nombre del proyecto y título del tablero.
+### ⚙️ Características Técnicas
+La aplicación trabaja con una estructura persistida por proyecto que incluye:
+- `columns`: columnas del flujo Kanban.
+- `iterations`: iteraciones configurables con fechas.
+- `tasks`: tareas con prioridad, etiquetas, responsable y fechas.
+- `updatedAt`: control de actualización del proyecto.
+- `version`: base para futuras migraciones del esquema.
 
-#### Duplicar
-- Clona el proyecto actual (estructura y tareas).
-- Crea un nuevo proyecto con sufijo `(Copia)`.
-- Cambia automáticamente al proyecto duplicado.
+### 🚀 Instalación y Uso
+Si quieres explorar el código localmente:
 
-#### Eliminar
-- Abre modal de advertencia con implicaciones.
-- Pide doble confirmación.
-- En la confirmación final, activa un temporizador de 10 segundos antes de habilitar el botón final.
-- Si solo existe un proyecto, la eliminación se bloquea.
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/tu-usuario/tu-repositorio.git
+   ```
 
-#### Exportar
-- Descarga un archivo JSON del proyecto activo.
-- Recomendado antes de cambios críticos o eliminación.
+2. Entra a la carpeta del proyecto:
+   ```bash
+   cd tu-repositorio
+   ```
 
-#### Importar
-- Permite cargar un JSON desde tu computadora.
-- Luego pide elegir modo:
-- `Crear Nuevo`: importa como proyecto nuevo.
-- `Reemplazar Actual`: sobreescribe el proyecto activo.
+3. Instala dependencias:
+   ```bash
+   npm install
+   ```
 
-#### Configurar
-- Abre el editor de tablero:
-- Título.
-- Columnas (nombre, WIP, política/reglas).
-- Iteraciones (nombre, inicio, fin).
+4. Inicia el entorno de desarrollo:
+   ```bash
+   npm run dev
+   ```
 
-### 1.6. Configuración del tablero: reglas de uso
+### 🧪 Build y calidad
+Para validar y generar la versión de producción:
 
-#### Columnas
-- Puedes agregar, editar y eliminar columnas.
-- Cada columna tiene:
-- Nombre.
-- Límite WIP.
-- Política (DoR/DoD u otra regla operativa).
-
-Si una columna tiene tareas:
-- El sistema exige seleccionar una columna destino.
-- Se usa flujo `Mover y Eliminar`.
-
-#### Iteraciones
-- Puedes agregar, editar y eliminar iteraciones.
-- Cada iteración tiene nombre y rango de fechas.
-
-Si una iteración tiene tareas:
-- El sistema exige seleccionar iteración destino.
-- Se usa flujo `Mover y Eliminar`.
-
-#### Validaciones
-- Debe existir al menos 1 columna y 1 iteración.
-- WIP debe ser número entero mayor o igual a 1.
-- Fecha inicio no puede ser posterior a fecha fin.
-- Título no puede quedar vacío.
-
-### 1.7. Crear tarea
-En el modal `Nueva Tarea`:
-- Título (obligatorio).
-- Prioridad.
-- Iteración (según selección actual).
-- Fecha inicio/fecha límite.
-- Responsable (obligatorio).
-- Etiquetas.
-
-La tarea nueva se crea en la primera columna disponible del proyecto.
-
-### 1.8. Modo oscuro
-- El modo oscuro aplica clase global y cambia paleta visual.
-- El contenedor principal usa `100dvh` para cubrir todo el viewport.
-
-### 1.9. Recomendaciones para usuarios
-- Exporta el proyecto antes de eliminarlo.
-- Mantén nombres claros en proyecto/iteraciones/columnas.
-- Revisa límites WIP para evitar sobrecarga en una columna.
-
----
-
-## 2. Documentación Técnica (Desarrollo)
-
-### 2.1. Stack
-- React.
-- Vite.
-- CSS Modules.
-- `lucide-react` para íconos.
-- Persistencia local con `localStorage`.
-
-### 2.2. Estructura de archivos clave
-- `src/Kanban.jsx`: componente principal con UI y lógica.
-- `src/Kanban.module.css`: estilos del tablero y modales.
-- `src/defaultProject.js`: fábrica de proyecto base.
-- `src/projectStorage.js`: capa de acceso a `localStorage`.
-- `src/index.css`: reset global.
-
-### 2.3. Modelo de datos del proyecto
-Cada proyecto persiste como objeto:
-
-```json
-{
-  "version": 1,
-  "id": "p_1700000000000_xxxxx",
-  "name": "Nombre Proyecto",
-  "title": "Tablero Kanban | Nombre Proyecto",
-  "columns": [
-    {
-      "id": "backlog",
-      "title": "Ideacion",
-      "limit": 8,
-      "policy": "Reglas de entrada/salida de la columna"
-    }
-  ],
-  "iterations": [
-    {
-      "id": "it1",
-      "label": "Iteracion 1 (01/02/2026 - 14/02/2026)",
-      "range": "01/02/2026 - 14/02/2026"
-    }
-  ],
-  "tasks": [
-    {
-      "id": "EC-01",
-      "title": "Catalogo",
-      "description": "Descripcion",
-      "priority": "Media",
-      "tags": ["Front", "Feature"],
-      "assignee": "Equipo Front",
-      "initials": "EF",
-      "columnId": "backlog",
-      "iteration": "it1",
-      "startDate": "01/02/2026",
-      "dueDate": "05/02/2026"
-    }
-  ],
-  "updatedAt": "2026-02-21T18:00:00.000Z"
-}
-```
-
-### 2.4. Claves de localStorage
-Definidas en `src/projectStorage.js`:
-
-- `kanban:projects:index`: lista de proyectos disponibles (id, name, updatedAt).
-- `kanban:projects:active`: id del proyecto activo.
-- `kanban:project:<id>`: documento completo del proyecto.
-
-### 2.5. Funciones principales de storage
-En `src/projectStorage.js`:
-- `loadProjectsIndex()`
-- `saveProjectsIndex(index)`
-- `loadProject(projectId)`
-- `saveProject(project)`
-- `removeProject(projectId)`
-- `getActiveProjectId()`
-- `setActiveProjectId(projectId)`
-- `addProjectToIndex(project)`
-- `removeProjectFromIndex(projectId)`
-
-### 2.6. Flujo de arranque
-En `Kanban.jsx`:
-1. Se ejecuta `loadOrCreateInitialProject()`.
-2. Si hay proyecto activo válido, lo carga.
-3. Si no hay activo pero existe índice, carga el primero.
-4. Si no hay datos, crea proyecto por defecto y lo persiste.
-
-### 2.7. Flujo de actualización
-`updateProject(updater)`:
-- actualiza el estado en memoria,
-- recalcula `updatedAt`,
-- guarda el proyecto,
-- sincroniza índice de proyectos.
-
-### 2.8. Gestión del menú
-El menú concentra acciones de proyecto:
-- Crear, renombrar, duplicar, eliminar.
-- Exportar/importar.
-- Configurar tablero.
-
-Las acciones críticas usan modales y validación previa.
-
-### 2.9. Importación de JSON
-Validación mínima:
-- existencia de `columns`, `iterations`, `tasks` como arreglos.
-
-Modos:
-- Crear nuevo:
-- se sanitiza contenido,
-- se genera nuevo `id`,
-- se agrega al índice y se activa.
-
-- Reemplazar actual:
-- se conserva `id` del proyecto activo,
-- se sobreescriben datos del proyecto activo.
-
-Funciones de saneo:
-- `sanitizeImportedProject(raw)`
-- `sanitizeImportedProjectForReplace(raw, currentProject)`
-
-### 2.10. Eliminación segura de proyecto
-Flujo actual:
-1. Modal de advertencia (implicaciones).
-2. Confirmación final.
-3. Temporizador de 10 segundos para habilitar botón definitivo.
-4. Eliminación física del proyecto + limpieza de índice + carga de fallback.
-
-### 2.11. Configuración de columnas/iteraciones con tareas
-Si se elimina una columna o iteración con tareas:
-- se requiere destino de movimiento (`Mover y Eliminar`),
-- al guardar configuración se reasignan referencias de tareas.
-
-Fallback adicional:
-- si alguna referencia queda inválida, se asigna primera columna/iteración válida.
-
-### 2.12. Estilos
-- CSS Modules en `src/Kanban.module.css`.
-- Unidades relativas (`rem`, `em`).
-- Tipografía responsiva con `clamp()`.
-- Reset global en `src/index.css`.
-- `min-height: 100dvh` en contenedor principal.
-- Microinteracciones de botones/tarjetas, con soporte `prefers-reduced-motion`.
-
-### 2.13. Comandos de desarrollo
-```bash
-npm install
-npm run dev
-```
-
-### 2.14. Build y calidad
 ```bash
 npm run lint
 npm run build
 ```
 
+### 💾 Persistencia de datos
+Toda la información se guarda en el navegador mediante `localStorage`, usando claves para:
+- índice de proyectos,
+- proyecto activo,
+- documentos completos de cada proyecto.
+
+Esto permite trabajar de forma local, mantener varios tableros y recuperar la información al volver a abrir la aplicación.
+
+### 📌 Estado actual del proyecto
+**Estado:** funcional y operativo para uso offline.  
+Incluye gestión multi-proyecto, configuración de columnas e iteraciones, persistencia local, importación/exportación JSON y seguridad reforzada en eliminación de proyectos.
+
 ---
 
-## 3. Buenas prácticas operativas
-- Exportar JSON antes de acciones destructivas.
-- Mantener nombres de IDs estables para integridad de referencias.
-- Probar importación en modo `Crear nuevo` antes de `Reemplazar actual`.
-- Mantener `version` para futuras migraciones de esquema.
-
----
-
-## 4. Estado actual del proyecto
-- Funcional para uso offline.
-- Multi-proyecto completamente operativo.
-- CRUD de configuración (título, columnas, iteraciones).
-- Seguridad reforzada en eliminación.
-- Documentación funcional y técnica consolidada.
+### 👨‍💻 Autor
+Desarrollado como una solución de gestión visual de tareas offline con enfoque en organización local, flexibilidad y simplicidad de uso.

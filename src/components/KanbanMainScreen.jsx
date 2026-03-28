@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Clock3, DoorOpen, Menu as MenuIcon, Moon, SquarePen, Sun, X } from "lucide-react";
+
+const SCREEN_TRANSITION_MS = 220;
 
 export default function KanbanMainScreen({
   screen,
@@ -41,6 +43,11 @@ export default function KanbanMainScreen({
   tagSlug,
 }) {
   const [renderNow, setRenderNow] = useState(() => Date.now());
+  const [displayedScreen, setDisplayedScreen] = useState(screen);
+  const [transitionStage, setTransitionStage] = useState("idle");
+  const [transitionDirection, setTransitionDirection] = useState("forward");
+  const exitTimeoutRef = useRef(null);
+  const enterTimeoutRef = useRef(null);
 
   useEffect(() => {
     const timerId = setInterval(() => {
@@ -49,6 +56,43 @@ export default function KanbanMainScreen({
 
     return () => clearInterval(timerId);
   }, []);
+
+  useEffect(() => {
+    return () => {
+      if (exitTimeoutRef.current) {
+        clearTimeout(exitTimeoutRef.current);
+      }
+      if (enterTimeoutRef.current) {
+        clearTimeout(enterTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (screen === displayedScreen) return;
+
+    setTransitionDirection(screen === "home" ? "backward" : "forward");
+    setTransitionStage("exit");
+
+    if (exitTimeoutRef.current) {
+      clearTimeout(exitTimeoutRef.current);
+    }
+    if (enterTimeoutRef.current) {
+      clearTimeout(enterTimeoutRef.current);
+    }
+
+    exitTimeoutRef.current = setTimeout(() => {
+      setDisplayedScreen(screen);
+      setTransitionStage("enter");
+
+      enterTimeoutRef.current = setTimeout(() => {
+        setTransitionStage("idle");
+        enterTimeoutRef.current = null;
+      }, SCREEN_TRANSITION_MS);
+
+      exitTimeoutRef.current = null;
+    }, SCREEN_TRANSITION_MS);
+  }, [screen, displayedScreen]);
 
   const parseDDMMYYYY = (value) => {
     const [dd = "", mm = "", yyyy = ""] = String(value || "").split("/");
@@ -92,9 +136,18 @@ export default function KanbanMainScreen({
     return segments.length > 0 ? segments[segments.length - 1] : withoutPrefix;
   };
 
-  if (screen === "home") {
+  const screenTransitionClass = [
+    styles.screenTransition,
+    transitionStage !== "idle" ? styles[`screenTransition_${transitionStage}`] : "",
+    styles[`screenTransition_${transitionDirection}`],
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  if (displayedScreen === "home") {
     return (
-      <section className={styles.homeScreen} aria-label="Pantalla de bienvenida">
+      <div className={screenTransitionClass}>
+        <section className={styles.homeScreen} aria-label="Pantalla de bienvenida">
         <div className={styles.homeThemeControls}>
           <span className={styles.homeThemeLabel}>Tema</span>
           {renderCustomSelect({
@@ -161,12 +214,13 @@ export default function KanbanMainScreen({
             )}
           </div>
         </div>
-      </section>
+        </section>
+      </div>
     );
   }
 
   return (
-    <>
+    <div className={screenTransitionClass}>
       <div className={styles.boardHeader} aria-label="Encabezado Tablero">
         <div className={styles.desktopHeader}>
           <div className={styles.titleWrap}>
@@ -663,6 +717,7 @@ export default function KanbanMainScreen({
           })}
         </div>
       </div>
-    </>
+    </div>
   );
 }
+9

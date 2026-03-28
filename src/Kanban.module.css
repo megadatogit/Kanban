@@ -1,3 +1,75 @@
+.screenTransition {
+  width: 100%;
+  will-change: opacity, transform, filter;
+}
+
+.screenTransition_exit {
+  pointer-events: none;
+}
+
+.screenTransition_exit {
+  opacity: 0;
+  filter: blur(0.25rem);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    filter 0.22s ease;
+}
+
+.screenTransition_enter {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, 0, 0);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    filter 0.22s ease;
+}
+
+.screenTransition_forward.screenTransition_exit {
+  transform: translate3d(1.5rem, 0, 0) scale(0.985);
+}
+
+.screenTransition_forward.screenTransition_enter {
+  animation: screenEnterForward 0.22s ease;
+}
+
+.screenTransition_backward.screenTransition_exit {
+  transform: translate3d(-1.5rem, 0, 0) scale(0.985);
+}
+
+.screenTransition_backward.screenTransition_enter {
+  animation: screenEnterBackward 0.22s ease;
+}
+
+@keyframes screenEnterForward {
+  from {
+    opacity: 0;
+    filter: blur(0.25rem);
+    transform: translate3d(-1rem, 0, 0) scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes screenEnterBackward {
+  from {
+    opacity: 0;
+    filter: blur(0.25rem);
+    transform: translate3d(1rem, 0, 0) scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
 .homeScreen {
   min-height: 100dvh;
   display: flex;
@@ -243,6 +315,8 @@
   box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.14);
   z-index: 1150;
   padding: 0.25rem;
+  transform-origin: top center;
+  animation: selectMenuIn 0.16s ease-out;
 }
 
 .customSelectItem {
@@ -281,6 +355,8 @@
   box-shadow: var(--shadow);
   padding: 0.375rem;
   z-index: 1100;
+  transform-origin: top left;
+  animation: menuPanelIn 0.18s ease-out;
 }
 
 .menuItem {
@@ -306,6 +382,7 @@
   inset: 0;
   background: var(--overlay-bg);
   z-index: 1250;
+  animation: overlayFadeIn 0.2s ease-out;
 }
 
 .mobileDrawer {
@@ -317,6 +394,7 @@
   box-shadow: -0.625rem 0 1.875rem rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
+  animation: mobileDrawerIn 0.24s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .mobileDrawerHeader {
@@ -989,6 +1067,7 @@
   justify-content: center;
   padding: var(--space-4);
   z-index: 1000;
+  animation: overlayFadeIn 0.2s ease-out;
 }
 
 .modal {
@@ -998,6 +1077,7 @@
   width: var(--layout-modal-w);
   max-width: 100%;
   box-shadow: 0 1.25rem 2.5rem rgba(0, 0, 0, .25);
+  animation: modalIn 0.22s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .taskModal {
@@ -1014,6 +1094,7 @@
   max-height: var(--layout-modal-max-h);
   overflow: hidden;
   box-shadow: 0 1.25rem 2.5rem rgba(0, 0, 0, .25);
+  animation: modalIn 0.22s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .modalWide .btn {
@@ -1416,6 +1497,64 @@
   border: 0.0625rem dashed var(--import-preview-border);
   border-radius: var(--radius-md);
   padding: 0.5rem 0.75rem;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1rem, 0) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes mobileDrawerIn {
+  from {
+    opacity: 0;
+    transform: translate3d(1.25rem, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes menuPanelIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -0.375rem, 0) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes selectMenuIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -0.25rem, 0) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
 }
 
 /* Responsive */
